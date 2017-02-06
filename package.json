@@ -1,0 +1,30 @@
+{
+  "name": "ExpressionsForUs",
+  "version": "1.0.0",
+  "description": "Greeting card website for expressionsforus.com",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZGrauer/Greeting-Card-Site.git"
+  },
+  "author": "Zachary Grauerholz",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ZGrauer/Greeting-Card-Site/issues"
+  },
+  "homepage": "https://github.com/ZGrauer/Greeting-Card-Site#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "imagemin-mozjpeg": "^6.0.0",
+    "jquery": "^3.1.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
