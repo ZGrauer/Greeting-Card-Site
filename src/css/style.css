@@ -89,10 +89,11 @@ body {
 }
 
 #Company-Name {
-    font-size: 50px;
+    font-size: 55px;
     font-family: 'Calligraffitti', cursive;
     text-align: center;
     letter-spacing: 2px;
+    margin-bottom: 25px;
 }
 
 .store-intro {
