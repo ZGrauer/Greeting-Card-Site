@@ -107,6 +107,19 @@ body {
     padding: 20px 35px 15px 35px;
 }
 
+
+/* Center images in carousels */
+
+.carousel-inner img {
+    margin: auto;
+}
+
+#card-info {
+    margin-top: 25px;
+    border: 1px solid #c5d6dc;
+    border-radius: 5px;
+}
+
 .card-name {
     color: #4a5370;
     text-decoration: none;
@@ -121,6 +134,12 @@ body {
 
 
 /* -- Media Queries -- */
+
+@media (min-width: 2000px) {
+    .format-main {
+        max-width: 1700px;
+    }
+}
 
 @media (min-width: 769px) {
     #nav-items {
