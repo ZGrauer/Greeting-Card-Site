@@ -47,19 +47,25 @@
 
 .navbar-inverse .navbar-nav>.active>a,
 .navbar-inverse .navbar-nav>.active>a:focus,
-.navbar-inverse .navbar-nav>.active>a:hover {
+.navbar-inverse .navbar-nav>.active>a:hover,
+.dropdown-menu>li>a:focus,
+.dropdown-menu>li>a:hover {
     background-color: rgba(0, 0, 0, 0.2);
     text-decoration: none;
 }
 
 .navbar-inverse .navbar-nav>li>a,
-.navbar-inverse .navbar-text {
+.navbar-inverse .navbar-text,
+.dropdown-menu>li>a {
     color: #e8e8e8;
 }
 
 .navbar-inverse .navbar-nav>li>a:focus,
-.navbar-inverse .navbar-nav>li>a:hover {
+.navbar-inverse .navbar-nav>li>a:hover,
+.dropdown-menu>li>a:focus,
+.dropdown-menu>li>a:hover {
     text-decoration: underline;
+    color: #e8e8e8;
 }
 
 #footer {
@@ -135,9 +141,9 @@ body {
 
 /* -- Media Queries -- */
 
-@media (min-width: 2000px) {
+@media (min-width: 1921px) {
     .format-main {
-        max-width: 1700px;
+        max-width: 1800px;
     }
 }
 
