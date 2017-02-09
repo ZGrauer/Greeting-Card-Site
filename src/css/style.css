@@ -56,7 +56,8 @@
 
 .navbar-inverse .navbar-nav>li>a,
 .navbar-inverse .navbar-text,
-.dropdown-menu>li>a {
+.dropdown-menu>li>a,
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
     color: #e8e8e8;
 }
 
