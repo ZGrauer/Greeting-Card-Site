@@ -7,3 +7,8 @@ $(document).ready(function() {
         interval: false
     });
 });
+
+var setCards = (type) => {
+    $('.card').show();
+    $('.card').not('.' + type).hide();
+};
