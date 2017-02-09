@@ -26,6 +26,7 @@
 #email {
     margin-top: 9px;
     margin-right: 15px;
+    margin-left: 40px;
 }
 
 #email-icon {
@@ -72,6 +73,12 @@
     color: #fff;
 }
 
+.footer-link:active,
+.footer-link:focus,
+.footer-link:visited {
+    color: #fff;
+}
+
 
 /* -- Main Content -- */
 
@@ -110,4 +117,26 @@ body {
 .card-name:active {
     color: #666;
     text-decoration: underline;
+}
+
+
+/* -- Media Queries -- */
+
+@media (min-width: 769px) {
+    #nav-items {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+    }
+    #myNavbar {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    #email {
+        margin-top: 9px;
+        margin-right: 15px;
+        margin-left: 15px;
+    }
 }
