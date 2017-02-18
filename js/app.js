@@ -1,4 +1,8 @@
 var shopInfo;
+/**
+ * Enter Etsy Dev API Key here
+ */
+var api_key = 'cm40xs23fd5y3d2k3ic5qtdl';
 
 /**
  * @description Enables Bootstrap tooltips when hovering
@@ -9,7 +13,7 @@ $(document).ready(function() {
         interval: false
     });
     getEstyData('https://openapi.etsy.com/v2/shops/12921536.js?api_key=' + api_key + '&callback=callback');
-    getEstyData('https://openapi.etsy.com/v2/shops/12921536/listings/active.js?api_key=' + api_key + '&includes=MainImage&callback=callback');
+    getEstyData('https://openapi.etsy.com/v2/shops/12921536/listings/active.js?api_key=' + api_key + '&includes=MainImage&limit=50&offset=0&callback=callback');
 });
 
 var setCards = (type) => {
@@ -17,11 +21,6 @@ var setCards = (type) => {
     $('.card').not('.' + type).hide();
 };
 
-
-/**
- * Enter Etsy Dev API Key here
- */
-var api_key = 'cm40xs23fd5y3d2k3ic5qtdl';
 
 
 /**
@@ -84,8 +83,10 @@ function addCards2Page(cards) {
 
                 var $img = $('<img/>').attr('src', cards[card].imgUrls.url_570xN).addClass('img-responsive img-rounded card-img').attr('id', 'img-' + cards[card].listingId);
                 var $title = $('<h3></h3>').html(cards[card].title).addClass('text-center');
+                var $price = $('<h4></h4>').html('$' + cards[card].price).addClass('text-center card-price');
+                var $desc = $('<p>' + cards[card].description.replace(/\n/g, "<br />") + '</p>').addClass('card-desc');
                 var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').append($title);
-                var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4').append($img, $link);
+                var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4 card').append($img, $link, $price);
 
                 $div.append($column);
                 i++;

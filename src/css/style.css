@@ -132,6 +132,10 @@ body {
     text-decoration: none;
 }
 
+.card-price {
+    font-size: 18px;
+}
+
 .card-name:hover,
 .card-name:focus,
 .card-name:active {
