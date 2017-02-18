@@ -8,8 +8,8 @@ $(document).ready(function() {
     $('.carousel').carousel({
         interval: false
     });
-    getEstyData('https://openapi.etsy.com/v2/shops/12921536.js');
-    getEstyData('https://openapi.etsy.com/v2/shops/12921536/listings/active.js');
+    getEstyData('https://openapi.etsy.com/v2/shops/12921536.js?api_key=' + api_key + '&callback=callback');
+    getEstyData('https://openapi.etsy.com/v2/shops/12921536/listings/active.js?api_key=' + api_key + '&includes=MainImage&callback=callback');
 });
 
 var setCards = (type) => {
@@ -30,9 +30,9 @@ var api_key = 'cm40xs23fd5y3d2k3ic5qtdl';
  * @returns Sets variables shopInfo & shopListings
  */
 function getEstyData(queryUrl) {
-    queryUrl += '?api_key=' + api_key + '&callback=callback';
     $.ajax({
             url: queryUrl,
+            api_key: api_key,
             type: "GET",
             dataType: 'jsonp',
             jsonp: "callback",
@@ -62,7 +62,6 @@ function buildCards(shopListings) {
     for (var listing in shopListings.results) {
         if (shopListings.results.hasOwnProperty(listing)) {
             var currentCard = new etsyListing(shopListings.results[listing]);
-            currentCard.getImages();
             cards.push(currentCard);
         }
     }
@@ -83,10 +82,7 @@ function addCards2Page(cards) {
                     $('#card-grid').append($div);
                 }
 
-                var $img = $('<img/>').addClass('img-responsive img-rounded card-img').attr('id', 'img-' + cards[card].listingId);
-                if (cards[card].imgUrls.length > 0) {
-                    $img.attr('src', self.imgUrls[0].url_570xN);
-                }
+                var $img = $('<img/>').attr('src', cards[card].imgUrls.url_570xN).addClass('img-responsive img-rounded card-img').attr('id', 'img-' + cards[card].listingId);
                 var $title = $('<h3></h3>').html(cards[card].title).addClass('text-center');
                 var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').append($title);
                 var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4').append($img, $link);
@@ -154,27 +150,6 @@ function etsyListing(listingData) {
     self.itemLength = listingData.item_length;
     self.itemHeight = listingData.item_height;
     self.itemWidth = listingData.item_width;
-    self.imgUrls = [];
+    self.imgUrls = listingData.MainImage;
 
-    self.getImages = function() {
-        $.ajax({
-                url: 'https://openapi.etsy.com/v2/listings/' + self.listingId +
-                    '/images.js?api_key=' + api_key + '&callback=callback',
-                type: "GET",
-                dataType: 'jsonp',
-                jsonp: "callback",
-            })
-            .done(function(data) {
-                //console.dir(data);
-                if (data.ok) {
-                    self.imgUrls = data.results;
-                    updateImgSrc(self.listingId, self.imgUrls[0].url_570xN);
-                } else {
-                    //alert(data.error);
-                }
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                //alert('ERROR! Unable to get shop data.\n' + textStatus + '\n' + errorThrown);
-            });
-    };
 }
