@@ -43,7 +43,7 @@ function getEstyData(queryUrl) {
                 if (data.type == 'Shop') {
                     shopInfo = new etsyShop(data);
                 } else if (data.type == 'Listing') {
-                    console.dir(buildCards(data));
+                    addCards2Page(buildCards(data));
                 }
 
             } else {
@@ -61,10 +61,49 @@ function buildCards(shopListings) {
     var cards = [];
     for (var listing in shopListings.results) {
         if (shopListings.results.hasOwnProperty(listing)) {
-            cards.push(new etsyListing(shopListings.results[listing]));
+            var currentCard = new etsyListing(shopListings.results[listing]);
+            currentCard.getImages();
+            cards.push(currentCard);
         }
     }
     return cards;
+}
+
+
+function addCards2Page(cards) {
+    $('#card-grid').empty();
+    if (cards.length > 0) {
+        var i = 0;
+        var row = 0;
+        for (var card in cards) {
+            if (cards.hasOwnProperty(card)) {
+
+                if (i === 0) {
+                    var $div = $('<div></div>').attr('id', 'card-grid-row-' + row).attr('class', 'row');
+                    $('#card-grid').append($div);
+                }
+
+                var $img = $('<img/>').addClass('img-responsive img-rounded card-img').attr('id', 'img-' + cards[card].listingId);
+                if (cards[card].imgUrls.length > 0) {
+                    $img.attr('src', self.imgUrls[0].url_570xN);
+                }
+                var $title = $('<h3></h3>').html(cards[card].title).addClass('text-center');
+                var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').append($title);
+                var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4').append($img, $link);
+
+                $div.append($column);
+                i++;
+                if (i === 3) {
+                    i = 0;
+                    row++;
+                }
+            }
+        }
+    }
+}
+
+function updateImgSrc(listingId, imgUrl) {
+    $('#img-' + listingId).attr('src', imgUrl);
 }
 
 
@@ -97,21 +136,45 @@ function etsyShop(shopData) {
  * @returns {Object}
  */
 function etsyListing(listingData) {
-    this.listingId = listingData.listing_id;
-    this.categoryId = listingData.category_id;
-    this.url = listingData.url;
-    this.title = listingData.title;
-    this.description = listingData.description;
-    this.price = listingData.price;
-    this.currencyCode = listingData.currency_code;
-    this.quantity = listingData.quantity;
-    this.tags = listingData.tags;
-    this.categoryPath = listingData.category_path;
-    this.taxonomyPath = listingData.taxonomy_path;
-    this.views = listingData.views;
-    this.numFavorers = listingData.num_favorers;
-    this.whenMade = listingData.when_made;
-    this.itemLength = listingData.item_length;
-    this.itemHeight = listingData.item_height;
-    this.itemWidth = listingData.item_width;
+    var self = this;
+    self.listingId = listingData.listing_id;
+    self.categoryId = listingData.category_id;
+    self.url = listingData.url;
+    self.title = listingData.title;
+    self.description = listingData.description;
+    self.price = listingData.price;
+    self.currencyCode = listingData.currency_code;
+    self.quantity = listingData.quantity;
+    self.tags = listingData.tags;
+    self.categoryPath = listingData.category_path;
+    self.taxonomyPath = listingData.taxonomy_path;
+    self.views = listingData.views;
+    self.numFavorers = listingData.num_favorers;
+    self.whenMade = listingData.when_made;
+    self.itemLength = listingData.item_length;
+    self.itemHeight = listingData.item_height;
+    self.itemWidth = listingData.item_width;
+    self.imgUrls = [];
+
+    self.getImages = function() {
+        $.ajax({
+                url: 'https://openapi.etsy.com/v2/listings/' + self.listingId +
+                    '/images.js?api_key=' + api_key + '&callback=callback',
+                type: "GET",
+                dataType: 'jsonp',
+                jsonp: "callback",
+            })
+            .done(function(data) {
+                //console.dir(data);
+                if (data.ok) {
+                    self.imgUrls = data.results;
+                    updateImgSrc(self.listingId, self.imgUrls[0].url_570xN);
+                } else {
+                    //alert(data.error);
+                }
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                //alert('ERROR! Unable to get shop data.\n' + textStatus + '\n' + errorThrown);
+            });
+    };
 }

@@ -139,6 +139,10 @@ body {
     text-decoration: underline;
 }
 
+.card-img {
+    max-width: 350px;
+}
+
 
 /* -- Media Queries -- */
 
