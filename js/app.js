@@ -77,16 +77,22 @@ function addCards2Page(cards) {
             if (cards.hasOwnProperty(card)) {
 
                 if (i === 0) {
-                    var $div = $('<div></div>').attr('id', 'card-grid-row-' + row).attr('class', 'row');
+                    var $div = $('<div></div>').addClass('row').attr('id', 'card-grid-row-' + row);
                     $('#card-grid').append($div);
                 }
 
-                var $img = $('<img/>').attr('src', cards[card].imgUrls.url_570xN).addClass('img-responsive img-rounded card-img').attr('id', 'img-' + cards[card].listingId);
+
+                var $imgSpan = $('<span></span>').addClass('img-span').append($('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').text('Details'));
+                var $img = $('<div></div>').addClass('image-div').css('background', 'url(' + cards[card].imgUrls.url_570xN + ') 50% 50% no-repeat');
+
+                var $imgDiv = $('<div></div>').addClass('thumb').append($img);
                 var $title = $('<h3></h3>').html(cards[card].title).addClass('text-center');
                 var $price = $('<h4></h4>').html('$' + cards[card].price).addClass('text-center card-price');
                 var $desc = $('<p>' + cards[card].description.replace(/\n/g, "<br />") + '</p>').addClass('card-desc');
-                var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').append($title);
-                var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4 card').append($img, $link, $price);
+                var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name');
+                $title = $link.append($title);
+
+                var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4 card').append($imgDiv, $title, $price);
 
                 $div.append($column);
                 i++;
