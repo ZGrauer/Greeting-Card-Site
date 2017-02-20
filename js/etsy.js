@@ -47,6 +47,9 @@ function getEstyData(queryUrl) {
 }
 
 
+/**
+ * @description Replaces
+ */
 function displayPolicyPage() {
     $('#card-grid').html('');
     $('#card-grid').append($('<h2>Store Policies</h2>'));
@@ -100,6 +103,7 @@ function addCards2Page(cards) {
         var i = 0;
         var row = 0;
         $('#card-grid').html('');
+        $('#card-grid').append($('<h2>Shop</h2>')).append('<hr/>');
         for (var card in cards) {
             if (cards.hasOwnProperty(card)) {
 
@@ -110,7 +114,7 @@ function addCards2Page(cards) {
 
 
                 var $imgSpan = $('<span></span>').addClass('img-span').append($('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').text('Details'));
-                var $img = $('<div></div>').addClass('image-div').css('background', 'url(' + cards[card].imgUrls.url_570xN + ') 50% 50% no-repeat');
+                var $img = $('<div></div>').addClass('image-div').css('background', 'url(' + cards[card].imgUrls.url_570xN + ') 50% 50% no-repeat').data('location', cards[card].url).attr('onclick', 'window.open($(this).data("location"), "_blank")').css('cursor', 'pointer');
 
                 var $imgDiv = $('<div></div>').addClass('thumb').append($img);
                 var $title = $('<h3></h3>').html(cards[card].title).addClass('text-center');
