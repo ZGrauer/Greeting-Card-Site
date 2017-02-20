@@ -24,6 +24,13 @@ function getEstyData(queryUrl) {
             if (data.ok) {
                 if (data.type == 'Shop') {
                     shopInfo = new etsyShop(data);
+                    if (shopInfo.announcement.length > 0) {
+                        $('#shop-alert').append(shopInfo.announcement.replace(/\n/g, "<br />")).show();
+                    }
+                    if (shopInfo.policyPayment || shopInfo.policyWelcome || shopInfo.policyShipping || shopInfo.policyRefunds) {
+                        $policyLink = $('<a></a>').attr('href', '#').text('Policy').attr('onclick', 'displayPolicyPage()');
+                        $navPolicyItem = $('<li></li>').addClass('nav-item nav-link').append($policyLink).insertAfter('#shopDropdown');
+                    }
                 } else if (data.type == 'Listing') {
                     shopCards = buildCards(data);
                     addCards2Page(shopCards);
@@ -37,6 +44,32 @@ function getEstyData(queryUrl) {
             alert('ERROR! Unable to get shop data.\n' + textStatus + '\n' + errorThrown);
         });
 
+}
+
+
+function displayPolicyPage() {
+    $('#card-grid').html('');
+    $('#card-grid').append($('<h2>Store Policies</h2>'));
+    $('#card-grid').append($('<hr/>'));
+    if (shopInfo.policyWelcome !== null) {
+        $('#card-grid').append($('<p>' + shopInfo.policyWelcome.replace(/\n/g, "<br />") + '</p>'));
+    }
+    if (shopInfo.policyShipping !== null) {
+        $('#card-grid').append($('<h3>Shipping Policy</h3>'));
+        $('#card-grid').append($('<p>' + shopInfo.policyShipping.replace(/\n/g, "<br />") + '</p>'));
+    }
+    if (shopInfo.policyPayment !== null) {
+        $('#card-grid').append($('<h3>Payment Policy</h3>'));
+        $('#card-grid').append($('<p>' + shopInfo.policyPayment.replace(/\n/g, "<br />") + '</p>'));
+    }
+    if (shopInfo.policyRefunds !== null) {
+        $('#card-grid').append($('<h3>Refund Policy</h3>'));
+        $('#card-grid').append($('<p>' + shopInfo.policyRefunds.replace(/\n/g, "<br />") + '</p>'));
+    }
+    if (shopInfo.policyAdditional !== null) {
+        $('#card-grid').append($('<h3>Additional</h3>'));
+        $('#card-grid').append($('<p>' + shopInfo.policyAdditional.replace(/\n/g, "<br />") + '</p>'));
+    }
 }
 
 
@@ -112,20 +145,20 @@ function updateImgSrc(listingId, imgUrl) {
  * @returns {Object}
  */
 function etsyShop(shopData) {
-    this.shopId = shopData.results.shop_id;
-    this.shopName = shopData.results.shop_name;
-    this.title = shopData.results.title;
-    this.announcement = shopData.results.announcement;
-    this.url = shopData.results.url;
-    this.imgUrl = shopData.results.image_url_760x100;
-    this.iconUrl = shopData.results.icon_url_fullxfull;
-    this.activeListings = shopData.results.listing_active_count;
-    this.saleMessage = shopData.results.sale_message;
-    this.policyWelcome = shopData.results.policy_welcome;
-    this.policyPayment = shopData.results.policy_payment;
-    this.policyShipping = shopData.results.policy_shipping;
-    this.policyRefunds = shopData.results.policy_refunds;
-    this.policyAdditional = shopData.results.policy_additional;
+    this.shopId = shopData.results[0].shop_id;
+    this.shopName = shopData.results[0].shop_name;
+    this.title = shopData.results[0].title;
+    this.announcement = shopData.results[0].announcement;
+    this.url = shopData.results[0].url;
+    this.imgUrl = shopData.results[0].image_url_760x100;
+    this.iconUrl = shopData.results[0].icon_url_fullxfull;
+    this.activeListings = shopData.results[0].listing_active_count;
+    this.saleMessage = shopData.results[0].sale_message;
+    this.policyWelcome = shopData.results[0].policy_welcome;
+    this.policyPayment = shopData.results[0].policy_payment;
+    this.policyShipping = shopData.results[0].policy_shipping;
+    this.policyRefunds = shopData.results[0].policy_refunds;
+    this.policyAdditional = shopData.results[0].policy_additional;
 }
 
 

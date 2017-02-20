@@ -32,7 +32,7 @@
                 <!-- <img src="./images/name.png" class="navbar-brand d-inline-block align-top" alt="Expressions For Us" id="brand-img"> -->
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav text-uppercase" id="nav-items">
-                        <li class="dropdown">
+                        <li class="dropdown" id='shopDropdown'>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop <span class="caret"></span></a>
                             <ul class="dropdown-menu darker-blue">
                                 <li><a href="#" onclick="setCards('')">All</a></li>
@@ -99,8 +99,7 @@
                         <h3>Customized Cards!</h3>
                         <p>
                             Cards can be customized with your own photo, dates, and more to make them even more special! Simply indicate the customization in the <strong>notes field when ordering</strong>, or
-                            <a href="mailto:tammy@expressionsforus.com"
-                                target="_blank"><strong>email me</strong></a>.
+                            <a href="mailto:tammy@expressionsforus.com" target="_blank"><strong>email me</strong></a>.
                         </p>
 
                         <ul>
@@ -118,9 +117,16 @@
                 </div>
 
             </section>
+            <!-- Display's any announcement from the Etsy shop -->
+            <div class="alert alert-info alert-dismissible" role="alert" id="shop-alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Main grid of card listings.  Populated by Etsy API -->
             <section class="card-grid" id="card-grid">
                 <div class="loading"></div>
-
             </section>
         </main>
         <footer>

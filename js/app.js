@@ -2,10 +2,12 @@
  * Enables Bootstrap tooltips when hovering
  */
 $(document).ready(function() {
+    $(".alert").alert();
     $('[data-toggle="tooltip"]').tooltip();
     $('.carousel').carousel({
         interval: false
     });
+    $('#shop-alert').hide();
     // Get Etsy sop data for Expressions for Us
     getEstyData('https://openapi.etsy.com/v2/shops/12921536.js?api_key=' + api_key + '&callback=callback');
     // Get all Etsy cards in Expressions for us
