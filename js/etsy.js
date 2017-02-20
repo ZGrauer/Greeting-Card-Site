@@ -4,8 +4,6 @@ var shopCards; // Etsy card object array from API
 var api_key = 'cm40xs23fd5y3d2k3ic5qtdl'; // Enter Etsy Dev API Key here!!!
 
 
-
-
 /**
  * @description Uses AJAX request to get Etsy shop data and all shop listings.
  * @param  {String} queryUrl Etsy API query URL to use. This should not include the API key or callback.
@@ -23,17 +21,30 @@ function getEstyData(queryUrl) {
             //console.dir(data);
             if (data.ok) {
                 if (data.type == 'Shop') {
+                    // Create shop object
                     shopInfo = new etsyShop(data);
+                    // If there's an announcement, then display as Bootstrap alert
                     if (shopInfo.announcement.length > 0) {
                         $('#shop-alert').append(shopInfo.announcement.replace(/\n/g, "<br />")).show();
                     }
+                    // If the store has policy info, add a nav item to display function
                     if (shopInfo.policyPayment || shopInfo.policyWelcome || shopInfo.policyShipping || shopInfo.policyRefunds) {
                         $policyLink = $('<a></a>').attr('href', '#').text('Policy').attr('onclick', 'displayPolicyPage()');
                         $navPolicyItem = $('<li></li>').addClass('nav-item nav-link').append($policyLink).insertAfter('#shopDropdown');
                     }
                 } else if (data.type == 'Listing') {
+                    // Build array of card objects.  Add cards to page
                     shopCards = buildCards(data);
                     addCards2Page(shopCards);
+                } else if (data.type == 'User') {
+                    // Add Etsy store review count
+                    $('.store-intro').append($('<span></span>').html('<b>Etsy Reviews: </b>'), $('<span></span>').addClass('badge').text(data.results[0].feedback_info.count));
+
+                    // Add Etsy store feeback 100%, displayed as 5-star rating
+                    var $starDivTop = $('<div></div>').addClass('star-ratings-css-top').css('width', data.results[0].feedback_info.score + '%').append($('<span></span>').text('★'), $('<span></span>').text('★'), $('<span></span>').text('★'), $('<span></span>').text('★'), $('<span></span>').text('★'));
+                    var $starDivBottom = $('<div></div>').addClass('star-ratings-css-bottom').append($('<span></span>').text('★'), $('<span></span>').text('★'), $('<span></span>').text('★'), $('<span></span>').text('★'), $('<span></span>').text('★'));
+                    var $starDiv = $('<div></div>').addClass('star-ratings-css').append($starDivTop, $starDivBottom);
+                    $('.store-intro').append($starDiv);
                 }
 
             } else {
@@ -45,6 +56,7 @@ function getEstyData(queryUrl) {
         });
 
 }
+
 
 
 /**
@@ -112,9 +124,8 @@ function addCards2Page(cards) {
                     $('#card-grid').append($div);
                 }
 
-
                 var $imgSpan = $('<span></span>').addClass('img-span').append($('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name').text('Details'));
-                var $img = $('<div></div>').addClass('image-div').css('background', 'url(' + cards[card].imgUrls.url_570xN + ') 50% 50% no-repeat').data('location', cards[card].url).attr('onclick', 'window.open($(this).data("location"), "_blank")').css('cursor', 'pointer');
+                var $img = $('<div></div>').addClass('image-div').css('background', 'url(' + cards[card].imgUrls.url_570xN.replace('_570xN', '_300x300') + ') 50% 50% no-repeat').data('location', cards[card].url).attr('onclick', 'window.open($(this).data("location"), "_blank")').css('cursor', 'pointer');
 
                 var $imgDiv = $('<div></div>').addClass('thumb').append($img);
                 var $title = $('<h3></h3>').html(cards[card].title).addClass('text-center');
@@ -123,7 +134,10 @@ function addCards2Page(cards) {
                 var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name');
                 $title = $link.append($title);
 
-                var $column = $('<div></div>').addClass('' + cards[card].shopSectionId).addClass('col-md-4 card').append($imgDiv, $title, $price);
+                var $caption = $('<div></div>').addClass('caption').append($title, $price);
+                var $thumbnailDiv = $('<div></div>').addClass('thumbnail').append($imgDiv, $caption);
+
+                var $column = $('<div></div>').addClass('' + cards[card].shopSectionId).addClass('col-md-4 card').append($thumbnailDiv);
 
                 $div.append($column);
                 i++;
@@ -192,5 +206,4 @@ function etsyListing(listingData) {
     self.itemHeight = listingData.item_height;
     self.itemWidth = listingData.item_width;
     self.imgUrls = listingData.MainImage;
-
 }

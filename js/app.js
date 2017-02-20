@@ -2,7 +2,7 @@
  * Enables Bootstrap tooltips when hovering
  */
 $(document).ready(function() {
-    $(".alert").alert();
+    $('.alert').alert();
     $('[data-toggle="tooltip"]').tooltip();
     $('.carousel').carousel({
         interval: false
@@ -13,6 +13,8 @@ $(document).ready(function() {
     // Get all Etsy cards in Expressions for us
     // Include main image, limit to 50 cards with no offset.
     getEstyData('https://openapi.etsy.com/v2/shops/12921536/listings/active.js?api_key=' + api_key + '&includes=MainImage&limit=50&offset=0&callback=callback');
+
+    getEstyData('https://openapi.etsy.com/v2/users/85905664.js?api_key=' + api_key + '&callback=callback');
 });
 
 
