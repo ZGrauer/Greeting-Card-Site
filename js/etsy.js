@@ -1,8 +1,7 @@
-var shopInfo;
-/**
- * Enter Etsy Dev API Key here
- */
-var api_key = 'cm40xs23fd5y3d2k3ic5qtdl';
+var shopInfo; // Etsy shop info from API
+var shopCards; // Etsy card object array from API
+
+var api_key = 'cm40xs23fd5y3d2k3ic5qtdl'; // Enter Etsy Dev API Key here!!!
 
 
 
@@ -26,7 +25,8 @@ function getEstyData(queryUrl) {
                 if (data.type == 'Shop') {
                     shopInfo = new etsyShop(data);
                 } else if (data.type == 'Listing') {
-                    addCards2Page(buildCards(data));
+                    shopCards = buildCards(data);
+                    addCards2Page(shopCards);
                 }
 
             } else {
@@ -40,6 +40,11 @@ function getEstyData(queryUrl) {
 }
 
 
+/**
+ * @description Creates instances of etsyListing objects based on API JSON and adds them to array shopCards.
+ * @param  {Array.<Object>} shopListings array of objects.  This is the JSON of Etsy listings returned from API AJAX
+ * @returns {Array.<etsyListing>} Array of etsyListing objects representing cards in the store
+ */
 function buildCards(shopListings) {
     var cards = [];
     for (var listing in shopListings.results) {
@@ -52,11 +57,16 @@ function buildCards(shopListings) {
 }
 
 
+
+/**
+ * @description Adds card objects as jQuery elements to the #card-grid div on the Shop page.
+ * @param  {Array.<etsyListing>} cards Array of etsyListing objects representing cards in the store
+ */
 function addCards2Page(cards) {
-    $('#card-grid').empty();
     if (cards.length > 0) {
         var i = 0;
         var row = 0;
+        $('#card-grid').html('');
         for (var card in cards) {
             if (cards.hasOwnProperty(card)) {
 
@@ -88,6 +98,8 @@ function addCards2Page(cards) {
         }
     }
 }
+
+
 
 function updateImgSrc(listingId, imgUrl) {
     $('#img-' + listingId).attr('src', imgUrl);
