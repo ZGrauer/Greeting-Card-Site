@@ -69,22 +69,26 @@ function displayPolicyPage() {
     if (shopInfo.policyWelcome !== null) {
         $('#card-grid').append($('<p>' + shopInfo.policyWelcome.replace(/\n/g, "<br />") + '</p>'));
     }
+    var $divLeft = $('<div></div>').addClass('col-md-6');
+    var $divRight = $('<div></div>').addClass('col-md-6');
     if (shopInfo.policyShipping !== null) {
-        $('#card-grid').append($('<h3>Shipping Policy</h3>'));
-        $('#card-grid').append($('<p>' + shopInfo.policyShipping.replace(/\n/g, "<br />") + '</p>'));
+        $divLeft.append($('<h3>Shipping Policy</h3>'));
+        $divLeft.append($('<p>' + shopInfo.policyShipping.replace(/\n/g, "<br />") + '</p>'));
     }
     if (shopInfo.policyPayment !== null) {
-        $('#card-grid').append($('<h3>Payment Policy</h3>'));
-        $('#card-grid').append($('<p>' + shopInfo.policyPayment.replace(/\n/g, "<br />") + '</p>'));
+        $divRight.append($('<h3>Payment Policy</h3>'));
+        $divRight.append($('<p>' + shopInfo.policyPayment.replace(/\n/g, "<br />") + '</p>'));
     }
     if (shopInfo.policyRefunds !== null) {
-        $('#card-grid').append($('<h3>Refund Policy</h3>'));
-        $('#card-grid').append($('<p>' + shopInfo.policyRefunds.replace(/\n/g, "<br />") + '</p>'));
+        $divRight.append($('<h3>Refund Policy</h3>'));
+        $divRight.append($('<p>' + shopInfo.policyRefunds.replace(/\n/g, "<br />") + '</p>'));
     }
     if (shopInfo.policyAdditional !== null) {
-        $('#card-grid').append($('<h3>Additional</h3>'));
-        $('#card-grid').append($('<p>' + shopInfo.policyAdditional.replace(/\n/g, "<br />") + '</p>'));
+        $divLeft.append($('<h3>Additional</h3>'));
+        $divLeft.append($('<p>' + shopInfo.policyAdditional.replace(/\n/g, "<br />") + '</p>'));
     }
+    var $divRow = $('<div></div>').addClass('row').append($divLeft, $divRight);
+    $('#card-grid').append($divRow);
 }
 
 
