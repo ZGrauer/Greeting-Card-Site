@@ -76,7 +76,7 @@ function addCards2Page(cards) {
                 var $link = $('<a></a>').attr('href', cards[card].url).attr('target', '_blank').addClass('card-name');
                 $title = $link.append($title);
 
-                var $column = $('<div></div>').addClass('' + cards[card].taxonomyPath[cards[card].taxonomyPath.length - 1].split(' ')[0].toLowerCase()).addClass('col-md-4 card').append($imgDiv, $title, $price);
+                var $column = $('<div></div>').addClass('' + cards[card].shopSectionId).addClass('col-md-4 card').append($imgDiv, $title, $price);
 
                 $div.append($column);
                 i++;
@@ -126,6 +126,7 @@ function etsyListing(listingData) {
     var self = this;
     self.listingId = listingData.listing_id;
     self.categoryId = listingData.category_id;
+    self.shopSectionId = listingData.shop_section_id;
     self.url = listingData.url;
     self.title = listingData.title;
     self.description = listingData.description;
